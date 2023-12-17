@@ -1,0 +1,78 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// Define the maximum number of items in the menu
+#define MAX_MENU_ITEMS 10
+
+// Structure to represent a menu item
+struct MenuItem {
+    char name[50];
+    float price;
+};
+
+// Function to display the menu
+void displayMenu(struct MenuItem menu[], int itemCount) {
+    printf("Da Vencie Restaurants:\n");
+    printf("-------------------------------------------------\n");
+    printf("| %-30s | %-10s |\n", "Item", "Price");
+    printf("-------------------------------------------------\n");
+    for (int i = 0; i < itemCount; i++) {
+        printf("| %-30s | %-10.2f |\n", menu[i].name, menu[i].price);
+    }
+    printf("-------------------------------------------------\n");
+}
+
+// Function to take orders and calculate the bill
+void takeOrder(struct MenuItem menu[], int itemCount) {
+    int choice, quantity;
+    float total = 0.0;
+
+    printf("Enter your order (item number and quantity, 0 to finish):\n");
+
+    do {
+        printf("Item number: ");
+        scanf("%d", &choice);
+
+        if (choice < 0 || choice >= itemCount) {
+            printf("Invalid item number. Please try again.\n");
+            continue;
+        }
+
+        if (choice != 0) {
+            printf("Quantity: ");
+            scanf("%d", &quantity);
+
+            total += menu[choice - 1].price * quantity;
+        }
+    } while (choice != 0);
+
+    printf("Your total bill is: $%.2f\n", total);
+}
+
+int main() {
+    // Define the menu items
+    struct MenuItem menu[MAX_MENU_ITEMS] = {
+        {"Burger", 5.99},
+        {"Pizza", 8.49},
+        {"Pasta", 6.99},
+        {"Salad", 4.99},
+        {"Soda", 1.99},
+        {"Croissant", 2.49},
+        {"Cupcake", 1.79},
+        {"Baguette", 3.99},
+        {"Cheesecake", 7.99},
+        {"Coffee", 2.29},
+        // Add more items as needed
+    };
+
+    int menuItemCount = sizeof(menu) / sizeof(menu[0]);
+
+    // Display the menu
+    displayMenu(menu, menuItemCount);
+
+    // Take orders and calculate the bill
+    takeOrder(menu, menuItemCount);
+
+    return 0;
+}
